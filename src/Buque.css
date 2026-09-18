@@ -19,7 +19,7 @@ body {
   height: 100svh;
   position: relative;
   overflow: hidden;
-  background: url('/assets/fundoflores4.png') center / cover;
+  background: url('./assets/fundoflores4.png') center / cover;
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
@@ -536,7 +536,7 @@ body {
 @media (max-width: 700px) {
 
   .pagina-buque {
-    background-image: url('/assets/fundofloresmobile.png');
+    background-image: url('./assets/fundofloresmobile.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

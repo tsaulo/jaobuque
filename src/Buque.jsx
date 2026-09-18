@@ -56,7 +56,7 @@ function Buque() {
         <div className="buque-container">
           <div className="buque">
             <img
-              src="/assets/flores/buque1.png"
+              src="./assets/flores/buque1.png"
               className="buque-fundo"
               alt=""
             />
@@ -114,7 +114,7 @@ function Buque() {
             </div>
 
             <img
-              src="/assets/flores/buque2.png"
+              src="./assets/flores/buque2.png"
               className="buque-frente"
               alt=""
             />

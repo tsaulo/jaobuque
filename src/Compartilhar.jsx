@@ -130,7 +130,7 @@ const selecionadasComFlores = selecionadas.map((musica) => {
           <div className="buque">
 
             <img
-              src="/assets/flores/buque1.png"
+              src="./assets/flores/buque1.png"
               className="buque-fundo"
               alt=""
             />
@@ -161,7 +161,7 @@ const selecionadasComFlores = selecionadas.map((musica) => {
                 </div>
 
             <img
-              src="/assets/flores/buque2.png"
+              src="./assets/flores/buque2.png"
               className="buque-frente"
               alt=""
             />
