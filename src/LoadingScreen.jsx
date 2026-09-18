@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './LoadingScreen.css';
 
 const imagens = [
-  '../assets/fundoflores4.png',
+  './assets/fundoflores4.png',
   './assets/fundofloresmobile.png',
   './assets/flores/buque1.png',
   './assets/flores/buque2.png',
