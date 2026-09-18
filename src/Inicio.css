@@ -46,7 +46,7 @@
   position: absolute;
   inset: 0;
 
-  background-image: url('./assets/botao.png');
+  background-image: url('/assets/botao.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -67,7 +67,7 @@
 }
 
 html {
-  background-image: url('./assets/fundojao2.png');
+  background-image: url('/assets/fundojao2.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
