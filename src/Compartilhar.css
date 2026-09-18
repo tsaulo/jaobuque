@@ -110,6 +110,11 @@
   inset: 0;
 }
 
+p{
+    color: #FAFAFA;
+    padding-bottom: 5%;
+  }
+
 .pagina-compartilhar .flor {
   position: absolute;
   max-width: none;
@@ -372,7 +377,7 @@
   .pagina-compartilhar .buque {
     width: 680px;
     height: 680px;
-    top: 38%;
+    top: 50%;
   }
 
   .pagina-compartilhar .posicoes {
@@ -403,12 +408,12 @@
 
   /* EMPURRA A ÁREA DE COMPARTILHAR MAIS PARA BAIXO */
   .compartilhar-area {
-    bottom: 100px; /* Alterado de 150px para 30px para ficar bem mais abaixo */
+    bottom: 50px; /* Alterado de 150px para 30px para ficar bem mais abaixo */
   }
 
   p{
     color: #FAFAFA;
-    padding-bottom: 10%;
+    padding-bottom: 5%;
   }
 
   .compartilhar-area h1 {
