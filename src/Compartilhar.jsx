@@ -1,7 +1,7 @@
 import './Compartilhar.css';
 import { useMemo, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { toBlob } from 'html-to-image';
+import { domToPng } from 'modern-screenshot';
 import { musicas } from './Musicas';
 
 import buque1Img from '/assets/flores/buque1.png';
@@ -72,79 +72,120 @@ function Compartilhar() {
 
   const url = window.location.href;
 
-  async function baixarImagemOuCompartilhar() {
-    if (!buqueContainerRef.current || carregandoImagem) return;
+  const baixarImagemOuCompartilhar = async () => {
     setCarregandoImagem(true);
 
     try {
-      const elemento = buqueContainerRef.current;
+      await new Promise((r) => setTimeout(r, 500));
 
-      // Execução dupla via toBlob para resolver falhas de renderização no iOS Safari
-      const blob = await Promise.all([
-        toBlob(elemento, {
-          cacheBust: true,
-          pixelRatio: 2,
-          backgroundColor: '#818C61',
-        }),
-        toBlob(elemento, {
-          cacheBust: true,
-          pixelRatio: 2,
-          backgroundColor: '#818C61',
-        })
-      ]).then((res) => res[1]);
-
-      if (!blob) {
-        throw new Error('Falha ao gerar a imagem.');
+      const elemento = buqueContainerRef.current || document.querySelector('.buque-container');
+      if (!elemento) {
+        throw new Error('Elemento .buque-container não foi encontrado no DOM.');
       }
 
-      const nomeArquivo = `meu-buque-${Math.floor(Math.random() * 1000)}.png`;
-      const arquivo = new File([blob], nomeArquivo, { type: 'image/png' });
+      const isMobile = window.innerWidth <= 700;
+      const CAPTURE_SCALE = Math.max(window.devicePixelRatio || 1, 2) * 1.2;
 
-      let compartilhouNativo = false;
+      const pngDataUrl = await domToPng(elemento, {
+        scale: CAPTURE_SCALE,
+        fetchExternalStyles: true,
+        features: {
+          font: true,
+        },
+      });
 
-      // Tenta o compartilhamento nativo primeiro (iOS/Android)
-      if (
-        navigator.share &&
-        navigator.canShare &&
-        navigator.canShare({ files: [arquivo] })
-      ) {
-        try {
-          await navigator.share({
-            title: 'Meu Buquê',
-            text: `Olha o buquê que eu montei! 🌸 ${url}`,
-            files: [arquivo]
-          });
-          compartilhouNativo = true;
-        } catch (shareErr) {
-          if (shareErr.name !== 'AbortError') {
-            console.warn('Falha no compartilhamento nativo:', shareErr);
-          } else {
-            return; // Se o usuário cancelou o menu do iOS, encerra sem disparar download
+      const img = new Image();
+      img.src = pngDataUrl;
+      await new Promise((resolve) => {
+        img.onload = resolve;
+      });
+
+      const larguraDesejadaStory = 1080;
+      const alturaDesejadaStory = 1920;
+
+      const canvasFinalStory = document.createElement('canvas');
+      canvasFinalStory.width = larguraDesejadaStory;
+      canvasFinalStory.height = alturaDesejadaStory;
+      const ctxFinal = canvasFinalStory.getContext('2d');
+
+      const fundoPath = isMobile
+        ? '/assets/fundofloresmobile2.png'
+        : '/assets/fundoflores5.png';
+
+      const backgroundImage = new Image();
+      backgroundImage.src = fundoPath;
+
+      await new Promise((resolve) => {
+        backgroundImage.onload = resolve;
+        backgroundImage.onerror = () => {
+          backgroundImage.src = '/assets/fundoflores5.png';
+          backgroundImage.onload = resolve;
+        };
+      });
+
+      ctxFinal.drawImage(
+        backgroundImage,
+        0,
+        0,
+        larguraDesejadaStory,
+        alturaDesejadaStory
+      );
+
+      const larguraOrigem = img.naturalWidth;
+      const alturaOrigem = img.naturalHeight;
+
+      const scaleRatio = Math.min(
+        (larguraDesejadaStory * 0.9) / larguraOrigem,
+        (alturaDesejadaStory * 0.85) / alturaOrigem
+      );
+
+      const imgWidthScaled = larguraOrigem * scaleRatio;
+      const imgHeightScaled = alturaOrigem * scaleRatio;
+
+      const xPos = Math.round((larguraDesejadaStory - imgWidthScaled) / 2);
+      const yPos = Math.round((alturaDesejadaStory - imgHeightScaled) / 2);
+
+      ctxFinal.drawImage(
+        img,
+        xPos,
+        yPos,
+        imgWidthScaled,
+        imgHeightScaled
+      );
+
+      canvasFinalStory.toBlob(async (blob) => {
+        if (!blob) return;
+
+        const nomeArquivo = 'meu-buque.png';
+        const file = new File([blob], nomeArquivo, { type: 'image/png' });
+
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              title: 'Meu Buquê',
+              text: 'Olha só o buquê que eu criei!',
+              files: [file],
+            });
+            return;
+          } catch (err) {
+            if (err.name === 'AbortError') return;
           }
         }
-      }
 
-      // Fallback para download via ObjectURL caso o compartilhamento nativo não seja suportado
-      if (!compartilhouNativo) {
-        const blobUrl = URL.createObjectURL(blob);
+        const linkUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.download = nomeArquivo;
-        link.href = blobUrl;
-        document.body.appendChild(link);
+        link.href = linkUrl;
         link.click();
 
-        setTimeout(() => {
-          document.body.removeChild(link);
-          URL.revokeObjectURL(blobUrl);
-        }, 100);
-      }
-    } catch (erro) {
-      console.error('Erro ao capturar imagem:', erro);
-      alert('Erro ao gerar imagem. Tente novamente!');
+        setTimeout(() => URL.revokeObjectURL(linkUrl), 1000);
+      }, 'image/png');
+    } catch (error) {
+      console.error('Erro ao gerar a imagem:', error);
     } finally {
       setCarregandoImagem(false);
     }
-  }
+  };
 
   function copiarLink() {
     navigator.clipboard.writeText(url);
@@ -177,7 +218,6 @@ function Compartilhar() {
     <main className="pagina-buque pagina-compartilhar">
       <section className="area-buque">
         
-        {/* Container que vira a foto do buquê */}
         <div className="buque-container" ref={buqueContainerRef}>
           <header className="topo-logo">
             <img src="./assets/logo.png" alt="Logo" className="logo-pagina" />
@@ -239,7 +279,6 @@ function Compartilhar() {
           </div>
         </div>
 
-        {/* Área de Botões e Ações (Fora do print) */}
         <div className="compartilhar-area">
           <h1>Compartilhe seu buquê!</h1>
           <div className="botoes-compartilhar">
