@@ -1,18 +1,17 @@
-import './Inicio.css'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+// 1. Altere a importação:
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
-function Inicio() {
-  const navigate = useNavigate()
-
+// 2. Envolva sua aplicação com o HashRouter:
+function App() {
   return (
-    <div class="container">
-      <div class="content">
-        <button class="btn" onClick={() => navigate('/buque')}>
-          <span>Iniciar</span>
-        </button>
-      </div>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/buque" element={<Buque />} />
+        <Route path="/compartilhar/:codigo" element={<Compartilhar />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default Inicio
+export default App;
