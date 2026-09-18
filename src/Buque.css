@@ -1,0 +1,667 @@
+@import url('https://fonts.googleapis.com/css2?family=Fleur+De+Leah&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.pagina-buque {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  position: relative;
+  overflow: hidden;
+  background: url('/assets/fundoflores4.png') center / cover;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.area-confirmar {
+  width: 100%;
+  height: 55px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+
+/* ================================
+   BUQUÊ
+================================ */
+
+.area-buque {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.buque-container {
+  position: absolute;
+  width: min(700px, 90vw);
+  height: 600px;
+  top: 34%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.buque {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.buque-fundo,
+.buque-frente {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+}
+
+.buque-fundo {
+  z-index: 1;
+}
+
+.buque-frente {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.flores {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.grupo-flores {
+  position: absolute;
+  inset: 0;
+}
+
+.flor {
+  position: absolute;
+  max-width: none;
+  object-fit: contain;
+  transform-origin: center;
+  filter: drop-shadow(4px 6px 4px rgba(0, 0, 0, 0.35));
+  transition: opacity .25s ease, filter .25s ease;
+}
+
+.flor-previa {
+  z-index: 4;
+}
+
+.flor-previa .flor {
+  opacity: .45;
+  filter: saturate(.75);
+}
+
+/* ================================
+   POSIÇÕES
+================================ */
+
+.posicoes {
+  position: absolute;
+  left: 35px;
+  bottom: 225px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 5;
+}
+
+.posicao {
+  height: 17px;
+  display: flex;
+  align-items: center;
+  color: #FAFAFA;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.numero-posicao {
+  width: 25px;
+  flex-shrink: 0;
+}
+
+.musica-posicao {
+  white-space: nowrap;
+}
+
+.posicao.preenchida {
+  font-weight: 700;
+}
+
+.flores-posicoes {
+  position: absolute;
+  right: 35px;
+  bottom: 225px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 5;
+  color: #FAFAFA;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  text-align: right;
+}
+
+.flor-posicao {
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+/* ================================
+   PAINEL DE MÚSICAS
+================================ */
+
+.painel-musicas {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 42vh;
+  display: flex;
+  flex-direction: column;
+  padding: 45px clamp(40px, 10vw, 145px) 0;
+  background: #E0E3CE;
+  border-radius: 58px 58px 0 0;
+  overflow: hidden;
+  font-family: 'Outfit', sans-serif;
+}
+
+.painel-musicas h1 {
+  flex-shrink: 0;
+  margin-bottom: 25px;
+  color: #203D28;
+  text-align: center;
+  font-size: clamp(32px, 5vw, 50px);
+  font-weight: 700;
+}
+
+.lista-musicas {
+  width: 100%;
+  max-width: 760px;
+  flex: 1;
+  min-height: 0;
+  margin: auto;
+  overflow-y: auto;
+  padding-right: 15px;
+  padding-bottom: 5px;
+  scrollbar-width: thin;
+  scrollbar-color: #273A27 transparent;
+}
+
+.lista-musicas::-webkit-scrollbar {
+  width: 12px;
+}
+
+.lista-musicas::-webkit-scrollbar-thumb {
+  background: #AEB5A1;
+  border-radius: 20px;
+}
+
+/* ================================
+   CADA MÚSICA
+================================ */
+
+.musica {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 200px;
+  color: #476C30;
+  text-align: left;
+  transition:
+    transform .15s ease,
+    color .2s ease,
+    background-color .2s ease;
+}
+
+.musica:hover {
+  transform: translateX(4px);
+}
+
+.nome-musica-botao {
+  flex: 1;
+  padding: 0;
+  padding-left: 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nome-musica {
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ranking-musica {
+  display: inline-block;
+  width: 45px;
+  margin-right: 5px;
+  color: inherit;
+  font-size: .65em;
+  font-weight: 700;
+}
+
+.musica-selecionada {
+  color: #203D28;
+}
+
+.musica-selecionada .nome-musica {
+  color: inherit;
+  font-weight: 700;
+}
+
+.musica-previsualizada {
+  background: #203D28;
+  color: #E0E3CE;
+  border-radius: 200px;
+}
+
+.musica-previsualizada .nome-musica {
+  color: inherit;
+}
+
+.musica-previsualizada .botao-adicionar {
+  color: #E0E3CE;
+}
+
+/* ================================
+   BOTÃO + / -
+================================ */
+
+.botao-adicionar {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #203D28;
+  font: inherit;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform .15s ease, color .2s ease;
+}
+
+.musica:not(.musica-selecionada) .botao-adicionar {
+  padding-bottom: 12px;
+}
+
+.botao-adicionar:hover {
+  transform: scale(1.15);
+}
+
+/* ================================
+   BOTÃO CONFIRMAR
+================================ */
+
+.botao-confirmar {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 12px 30px;
+  border: none;
+  border-bottom: 4px solid #121B0C;
+  border-radius: 50px;
+  background-color: #273A27;
+  color: #E0E3CE;
+  font: 700 18px/1 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition:
+    border-bottom-width .3s ease-in-out,
+    transform .3s ease-in-out,
+    opacity .15s ease;
+}
+
+.botao-confirmar span {
+  position: relative;
+  z-index: 1;
+}
+
+.botao-confirmar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('./assets/botao.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity .3s ease-in-out;
+  z-index: 0;
+}
+
+.botao-confirmar:hover::before {
+  opacity: 1;
+}
+
+.botao-confirmar:not(:disabled):hover {
+  border-bottom-width: 8px;
+  transform: translateY(-2px);
+}
+
+.botao-confirmar:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* ================================
+   PAINEL DE INFORMAÇÃO
+================================ */
+
+.info-musica {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 18px clamp(25px, 5vw, 70px) calc(42vh + 20px);
+  background: rgba(20, 49, 31, .96);
+  border-radius: 50px 50px 0 0;
+  color: #E7E9D5;
+  transition: padding-top .35s ease;
+}
+
+.info-musica.expandida {
+  padding-top: 28px;
+}
+
+.info-musica-conteudo {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.info-musica-texto {
+  flex: 1;
+  min-width: 0;
+}
+
+.info-musica h2 {
+  margin-bottom: 8px;
+  color: #E0E3CE;
+  font-family: 'Fleur De Leah', cursive;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 400;
+  line-height: .9;
+}
+
+.info-musica p {
+  color: #E0E3CE;
+  font-size: clamp(15px, 1.5vw, 20px);
+  line-height: 1.2;
+}
+
+.descricao-longa {
+  max-height: 0;
+  margin-top: 0 !important;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    max-height .18s ease,
+    margin-top .18s ease,
+    opacity .1s ease,
+    transform .18s ease;
+}
+
+.descricao-longa.visivel {
+  max-height: 300px;
+  margin-top: 20px !important;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    max-height .35s ease,
+    margin-top .35s ease,
+    opacity .25s ease,
+    transform .35s ease;
+}
+
+.botao-expandir {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #E0E3CE;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .2);
+  transition: transform .2s ease;
+}
+
+.botao-expandir:hover {
+  transform: scale(1.08);
+}
+
+.icone-expandir {
+  position: relative;
+  width: 17px;
+  height: 17px;
+}
+
+.icone-expandir::before,
+.icone-expandir::after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+}
+
+.icone-expandir::before {
+  top: 0;
+  right: 0;
+  border-top: 3px solid #203D28;
+  border-right: 3px solid #203D28;
+}
+
+.icone-expandir::after {
+  left: 0;
+  bottom: 0;
+  border-left: 3px solid #203D28;
+  border-bottom: 3px solid #203D28;
+}
+
+.icone-reduzir::before {
+  top: 3px;
+  right: 3px;
+  border-top: 3px solid #203D28;
+  border-right: 3px solid #203D28;
+}
+
+.icone-reduzir::after {
+  left: 3px;
+  bottom: 3px;
+  border-left: 3px solid #203D28;
+  border-bottom: 3px solid #203D28;
+}
+
+
+
+/* ================================
+   CELULAR
+================================ */
+
+@media (max-width: 700px) {
+
+  .pagina-buque {
+    background-image: url('/assets/fundofloresmobile.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .buque-container {
+    width: 100%;
+    height: 430px;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .buque {
+    width: 450px;
+    height: 450px;
+    left: 50%;
+    top: 73%;
+    transform: translate(-50%, -50%);
+  }
+
+  .posicoes {
+    left: 8px;
+    bottom: 35px;
+    width: 115px;
+    gap: 2px;
+  }
+
+  .posicao {
+    font-size: 14px;
+  }
+
+  .flores-posicoes {
+    right: 8px;
+    bottom: 35px;
+    width: 115px;
+    gap: 2px;
+  }
+
+  .flor-posicao {
+    font-size: 14px;
+  }
+
+  .painel-musicas {
+    height: 42vh;
+    padding: 30px 30px 25px;
+    border-radius: 40px 40px 0 0;
+  }
+
+  .painel-musicas h1 {
+    margin-bottom: 20px;
+    font-size: 32px;
+  }
+
+  .lista-musicas {
+    height: calc(100% - 115px);
+    padding-right: 10px;
+    padding-bottom: 5px;
+  }
+
+  .nome-musica {
+    font-size: 21px;
+  }
+
+  .botao-adicionar {
+    width: 35px;
+    height: 35px;
+    font-size: 30px;
+  }
+
+  .info-musica {
+    padding: 18px 16px calc(42vh + 20px);
+    border-radius: 40px 40px 0 0;
+  }
+
+  .info-musica-conteudo {
+    position: relative;
+    display: block;
+  }
+
+  .info-musica-texto {
+    width: 100%;
+    padding-right: 45px;
+  }
+
+  .info-musica h2 {
+    font-size: 32px;
+    margin-bottom: 7px;
+  }
+
+  .info-musica p {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .botao-expandir {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    transform: none;
+    width: 32px;
+    height: 32px;
+  }
+
+  .icone-expandir {
+    width: 14px;
+    height: 14px;
+    transform: scale(.75);
+  }
+
+  .descricao-longa.visivel {
+    max-height: 200px;
+    margin-top: 20px !important;
+  }
+
+  .area-confirmar {
+    height: 45px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .botao-confirmar {
+    padding: 11px 28px;
+    font-size: 16px;
+  }
+}
