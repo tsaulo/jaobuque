@@ -1,18 +1,16 @@
-import './App.css';
-import Inicio from './Inicio.jsx';
-import Buque from './Buque.jsx';
-import Compartilhar from './Compartilhar.jsx';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// 1. Altere a importação:
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 
+// 2. Envolva sua aplicação com o HashRouter:
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/" element={<Inicio />} />
+        <Route path="/" element={<Home />} />
         <Route path="/buque" element={<Buque />} />
         <Route path="/compartilhar/:codigo" element={<Compartilhar />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
