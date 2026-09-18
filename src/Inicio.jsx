@@ -1,18 +1,18 @@
-import './Inicio.css'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import './Inicio.css';
+import { useNavigate } from 'react-router-dom';
 
 function Inicio() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <div class="container">
-      <div class="content">
-        <button class="btn" onClick={() => navigate('/buque')}>
+    <div className="container">
+      <div className="content">
+        <button className="btn" onClick={() => navigate('/buque')}>
           <span>Iniciar</span>
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default Inicio
+export default Inicio;
