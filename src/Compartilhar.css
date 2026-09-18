@@ -377,7 +377,7 @@ p{
   .pagina-compartilhar .buque {
     width: 680px;
     height: 680px;
-    top: 50%;
+    top: 45%;
   }
 
   .pagina-compartilhar .posicoes {
@@ -408,7 +408,7 @@ p{
 
   /* EMPURRA A ÁREA DE COMPARTILHAR MAIS PARA BAIXO */
   .compartilhar-area {
-    bottom: 50px; /* Alterado de 150px para 30px para ficar bem mais abaixo */
+    bottom: 67px; /* Alterado de 150px para 30px para ficar bem mais abaixo */
   }
 
   p{
