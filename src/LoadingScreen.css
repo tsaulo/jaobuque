@@ -1,0 +1,57 @@
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: url('/assets/fundoflores4.png') center / cover;
+
+  color: #FAFAFA;
+  font-family: 'Outfit', sans-serif;
+}
+
+.loading-texto {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.loading-flores {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.loading-flor {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+
+  /* Mantém apenas o efeito de pulsar sem girar */
+  animation: breathe-image 2s ease-in-out infinite;
+
+  filter: drop-shadow(4px 6px 4px rgba(0, 0, 0, .35));
+}
+
+/* Animação: Pulsar (Aumenta rapidamente e diminui devagar) */
+@keyframes breathe-image {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  35% {
+    transform: scale(1.5); /* Aumenta o tamanho no pico */
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1); /* Retorna suavemente ao tamanho original */
+    opacity: 0.8;
+  }
+}

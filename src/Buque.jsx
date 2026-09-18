@@ -1,10 +1,10 @@
 import './Buque.css';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. IMPORTAÇÃO ADICIONADA
+import { useNavigate } from 'react-router-dom';
 import { musicas } from './Musicas';
 
 function Buque() {
-  const navigate = useNavigate(); // 2. HOOK INICIALIZADO AQUI
+  const navigate = useNavigate();
 
   const [selecionadas, setSelecionadas] = useState([]);
   const [previsualizada, setPrevisualizada] = useState(null);
@@ -42,85 +42,18 @@ function Buque() {
   }
 
   function confirmar() {
-  if (selecionadas.length !== 5) return;
+    if (selecionadas.length !== 5) return;
 
-  // Pega o id (ou idurl) de cada música e junta com hífen: "3-12-5-7-14"
-  const codigo = selecionadas.map((m) => m.idurl ?? m.id).join('-');
-
-  navigate(`/compartilhar/${codigo}`);
-}
+    const codigo = selecionadas.map((m) => m.idurl ?? m.id).join('-');
+    navigate(`/compartilhar/${codigo}`);
+  }
 
   return (
     <main className="pagina-buque">
       <section className="area-buque">
-        <div className="buque-container">
-          <div className="buque">
-            <img
-              src="./assets/flores/buque1.png"
-              className="buque-fundo"
-              alt=""
-            />
-
-            <div className="flores">
-              {selecionadas.map((musica) => (
-                <div
-                  key={`selecionada-${musica.nome}`}
-                  className="grupo-flores"
-                >
-                  {musica.posicoes.map((posicao, index) => (
-                    <img
-                      key={index}
-                      src={musica.imagem}
-                      alt={index === 0 ? musica.flor : ''}
-                      className="flor"
-                      style={{
-                        left: `${posicao.x}%`,
-                        top: `${posicao.y}%`,
-                        width: `${posicao.tamanho}px`,
-                        transform: `
-                          translate(-50%, -50%)
-                          rotate(${posicao.rotacao}deg)
-                        `
-                      }}
-                    />
-                  ))}
-                </div>
-              ))}
-
-              {previsualizada &&
-                !selecionadas.some(
-                  (item) => item.nome === previsualizada.nome
-                ) && (
-                  <div className="grupo-flores flor-previa">
-                    {previsualizada.posicoes.map((posicao, index) => (
-                      <img
-                        key={index}
-                        src={previsualizada.imagem}
-                        alt=""
-                        className="flor"
-                        style={{
-                          left: `${posicao.x}%`,
-                          top: `${posicao.y}%`,
-                          width: `${posicao.tamanho}px`,
-                          transform: `
-                            translate(-50%, -50%)
-                            rotate(${posicao.rotacao}deg)
-                          `
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
-            </div>
-
-            <img
-              src="./assets/flores/buque2.png"
-              className="buque-frente"
-              alt=""
-            />
-          </div>
-
-          {/* TOP 5 */}
+        {/* CONTAINER AGRUPADO: POSIÇÕES, BUQUÊ E FLORES */}
+        <div className="buque-wrapper">
+          {/* COLUNA ESQUERDA: POSIÇÕES E NOMES DAS MÚSICAS */}
           <div className="posicoes">
             {[0, 1, 2, 3, 4].map((index) => (
               <div className="posicao" key={index}>
@@ -134,6 +67,76 @@ function Buque() {
             ))}
           </div>
 
+          {/* CENTRO: O BUQUÊ COM AS FLORES */}
+          <div className="buque-container">
+            <div className="buque">
+              <img
+                src="./assets/flores/buque1.png"
+                className="buque-fundo"
+                alt=""
+              />
+
+              <div className="flores">
+                {selecionadas.map((musica) => (
+                  <div
+                    key={`selecionada-${musica.nome}`}
+                    className="grupo-flores"
+                  >
+                    {musica.posicoes.map((posicao, index) => (
+                      <img
+                        key={index}
+                        src={musica.imagem}
+                        alt={index === 0 ? musica.flor : ''}
+                        className="flor"
+                        style={{
+                          left: `${posicao.x}%`,
+                          top: `${posicao.y}%`,
+                          width: `${posicao.tamanho}px`,
+                          transform: `
+                            translate(-50%, -50%)
+                            rotate(${posicao.rotacao}deg)
+                          `
+                        }}
+                      />
+                    ))}
+                  </div>
+                ))}
+
+                {previsualizada &&
+                  !selecionadas.some(
+                    (item) => item.nome === previsualizada.nome
+                  ) && (
+                    <div className="grupo-flores flor-previa">
+                      {previsualizada.posicoes.map((posicao, index) => (
+                        <img
+                          key={index}
+                          src={previsualizada.imagem}
+                          alt=""
+                          className="flor"
+                          style={{
+                            left: `${posicao.x}%`,
+                            top: `${posicao.y}%`,
+                            width: `${posicao.tamanho}px`,
+                            transform: `
+                              translate(-50%, -50%)
+                              rotate(${posicao.rotacao}deg)
+                            `
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+              </div>
+
+              <img
+                src="./assets/flores/buque2.png"
+                className="buque-frente"
+                alt=""
+              />
+            </div>
+          </div>
+
+          {/* COLUNA DIREITA: NOMES DAS FLORES */}
           <div className="flores-posicoes">
             {[0, 1, 2, 3, 4].map((index) => (
               <div className="flor-posicao" key={index}>
@@ -173,8 +176,6 @@ function Buque() {
                 ></span>
               </button>
             </div>
-
-            
           </div>
         )}
       </section>
@@ -210,21 +211,23 @@ function Buque() {
                   </span>
                 </button>
 
-                <button
-                  className="botao-adicionar"
-                  onClick={() =>
-                    adicionada
-                      ? removerMusica(musica)
-                      : adicionarMusica(musica)
-                  }
-                  aria-label={
-                    adicionada
-                      ? `Remover ${musica.nome}`
-                      : `Adicionar ${musica.nome}`
-                  }
-                >
-                  {adicionada ? '–' : '+'}
-                </button>
+                {(adicionada || estaPrevisualizada) && (
+                  <button
+                    className="botao-adicionar"
+                    onClick={() =>
+                      adicionada
+                        ? removerMusica(musica)
+                        : adicionarMusica(musica)
+                    }
+                    aria-label={
+                      adicionada
+                        ? `Remover ${musica.nome}`
+                        : `Adicionar ${musica.nome}`
+                    }
+                  >
+                    {adicionada ? '–' : '+'}
+                  </button>
+                )}
               </div>
             );
           })}

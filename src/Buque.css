@@ -35,7 +35,7 @@ body {
 }
 
 /* ================================
-   BUQUÊ
+   BUQUÊ E WRAPPER
 ================================ */
 
 .area-buque {
@@ -45,21 +45,32 @@ body {
   overflow: hidden;
 }
 
-.buque-container {
+.buque-wrapper {
   position: absolute;
-  width: min(700px, 90vw);
-  height: 600px;
-  top: 34%;
+  top: 32%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(850px, 94vw);
+  height: 520px;
+  z-index: 2;
+}
+
+.buque-container {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  flex-shrink: 0;
 }
 
 .buque {
   position: absolute;
-  width: 520px;
-  height: 520px;
+  width: 100%;
+  height: 100%;
   left: 50%;
-  top: 45%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -122,9 +133,7 @@ body {
 ================================ */
 
 .posicoes {
-  position: absolute;
-  left: 35px;
-  bottom: 225px;
+  position: relative;
   width: 180px;
   display: flex;
   flex-direction: column;
@@ -150,6 +159,8 @@ body {
 
 .musica-posicao {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .posicao.preenchida {
@@ -157,9 +168,7 @@ body {
 }
 
 .flores-posicoes {
-  position: absolute;
-  right: 35px;
-  bottom: 225px;
+  position: relative;
   width: 180px;
   display: flex;
   flex-direction: column;
@@ -178,6 +187,9 @@ body {
   align-items: center;
   justify-content: flex-end;
   text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ================================
@@ -527,8 +539,6 @@ body {
   border-bottom: 3px solid #203D28;
 }
 
-
-
 /* ================================
    CELULAR
 ================================ */
@@ -542,42 +552,67 @@ body {
     background-repeat: no-repeat;
   }
 
+  /* Mantém o buquê centralizado no tamanho original de 500px */
+  .buque-wrapper {
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .buque-container {
-    width: 100%;
-    height: 430px;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    position: relative;
+    z-index: 1;
   }
 
-  .buque {
-    width: 450px;
-    height: 450px;
-    left: 50%;
-    top: 73%;
-    transform: translate(-50%, -50%);
-  }
-
+  /* Lista da Esquerda - Sobreposta nas bordas da esquerda */
   .posicoes {
-    left: 8px;
-    bottom: 35px;
-    width: 115px;
-    gap: 2px;
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32vw;
+    max-width: 130px;
+    z-index: 10;
+    pointer-events: auto;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
   }
 
-  .posicao {
-    font-size: 14px;
-  }
-
+  /* Lista da Direita - Sobreposta nas bordas da direita */
   .flores-posicoes {
-    right: 8px;
-    bottom: 35px;
-    width: 115px;
-    gap: 2px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32vw;
+    max-width: 130px;
+    z-index: 10;
+    pointer-events: auto;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
   }
 
+  /* Remove o truncamento das listas e permite quebra de linha */
+  .musica-posicao,
   .flor-posicao {
-    font-size: 14px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: break-word;
+  }
+
+  .posicao,
+  .flor-posicao {
+    height: auto;
+    min-height: 18px;
+    font-size: 13px;
+    line-height: 1.15;
   }
 
   .painel-musicas {
