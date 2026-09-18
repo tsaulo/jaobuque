@@ -14,20 +14,16 @@ import LoadingScreen from './LoadingScreen';
 function AppContent() {
   const [loading, setLoading] = useState(true);
 
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Inicio />} />
-        <Route path="/buque" element={<Buque />} />
-        <Route path="/compartilhar/:codigo" element={<Compartilhar />} />
-      </Routes>
+  if (loading) {
+    return <LoadingScreen onComplete={() => setLoading(false)} />;
+  }
 
-      {loading && (
-        <LoadingScreen
-          onComplete={() => setLoading(false)}
-        />
-      )}
-    </>
+  return (
+    <Routes>
+      <Route path="/" element={<Inicio />} />
+      <Route path="/buque" element={<Buque />} />
+      <Route path="/compartilhar/:codigo" element={<Compartilhar />} />
+    </Routes>
   );
 }
 

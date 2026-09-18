@@ -1,17 +1,17 @@
+/* LoadingScreen.css */
 .loading-screen {
   position: fixed;
-  inset: 0;
-  z-index: 9999;
-
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #818C61; /* Use a cor principal de fundo do seu projeto */
+  z-index: 99999; /* Garante que fique por cima de tudo */
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-
-  background: url('/assets/fundoflores4.png') center / cover;
-
-  color: #FAFAFA;
-  font-family: 'Outfit', sans-serif;
+  align-items: center;
+  color: #E0E3CE;
 }
 
 .loading-texto {

@@ -582,7 +582,6 @@ body {
     max-width: 130px;
     z-index: 10;
     pointer-events: auto;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
   }
 
   /* Lista da Direita - Sobreposta nas bordas da direita */
@@ -595,7 +594,6 @@ body {
     max-width: 130px;
     z-index: 10;
     pointer-events: auto;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
   }
 
   /* Remove o truncamento das listas e permite quebra de linha */
