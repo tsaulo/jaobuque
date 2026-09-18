@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import './LoadingScreen.css';
 
 const imagens = [
-  './assets/fundoflores4.png',
-  './assets/fundofloresmobile.png',
+  './assets/fundoflores5.png',
+  './assets/fundofloresmobile2.png',
   './assets/flores/buque1.png',
   './assets/flores/buque2.png',
   './assets/flores/crisantemo.png',
@@ -14,7 +14,7 @@ const imagens = [
   './assets/flores/hortensia.png',
   './assets/flores/orquidea.png',
   './assets/flores/azaleia.png',
-  './assets/flores/miosotis.png',
+  './assets/flores/myosotis.png',
   './assets/flores/girassol.png',
   './assets/flores/tulipa.png',
   './assets/flores/margarida.png',

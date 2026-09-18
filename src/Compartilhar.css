@@ -14,7 +14,7 @@
   height: 100svh;
   position: relative;
   overflow: hidden;
-  background: url('/assets/fundoflores4.png') center / cover no-repeat;
+  background: url('/assets/fundoflores5.png') center / cover no-repeat;
   font-family: 'Outfit', sans-serif;
 }
 
@@ -34,6 +34,32 @@
   transform: translateX(-50%);
 }
 
+/* Container fixo no topo da viewport */
+.topo-logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  z-index: 1000; /* Fica por cima de todos os elementos */
+  pointer-events: none; /* Permite clicar no que estiver atrás da área transparente */
+}
+
+/* Imagem da logo */
+.logo-pagina {
+  max-width: 200px; /* Ajuste o tamanho da logo como preferir */
+  height: auto;
+  object-fit: contain;
+  pointer-events: auto; /* Mantém a logo clicável caso queira transformar em link */
+}
+
+/* Compensação na página para os elementos não ficarem colados/atrás da logo no topo */
+.pagina-buque {
+  padding-top: 70px; /* Espaço reserved para a logo não cobrir o topo do conteúdo */
+}
 
 .pagina-compartilhar .buque {
   position: absolute;
@@ -334,7 +360,7 @@
 
 @media (max-width: 700px) {
   .pagina-compartilhar {
-    background-image: url('/assets/fundofloresmobile.png');
+    background-image: url('/assets/fundofloresmobile2.png');
   }
 
   .pagina-compartilhar .buque-container {

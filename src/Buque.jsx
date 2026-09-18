@@ -49,7 +49,11 @@ function Buque() {
   }
 
   return (
+    
     <main className="pagina-buque">
+      <header className="topo-logo">
+      <img src="./assets/logo.png" alt="Logo" className="logo-pagina" />
+      </header>
       <section className="area-buque">
         {/* CONTAINER AGRUPADO: POSIÇÕES, BUQUÊ E FLORES */}
         <div className="buque-wrapper">

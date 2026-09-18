@@ -157,8 +157,13 @@ function Compartilhar() {
 
   return (
     <main className="pagina-buque pagina-compartilhar">
+      
       <section className="area-buque">
+        
         <div className="buque-container" ref={buqueContainerRef}>
+          <header className="topo-logo">
+            <img src="./assets/logo.png" alt="Logo" className="logo-pagina" />
+            </header>
           <div className="buque">
             {/* Usando as variáveis de imagem importadas */}
             <img
