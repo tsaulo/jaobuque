@@ -1,12 +1,11 @@
 import './Compartilhar.css';
 import { useMemo, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { toPng } from 'html-to-image';
+import { toBlob } from 'html-to-image';
 import { musicas } from './Musicas';
 
-// Importando as imagens do buquê diretamente para garantir o carregamento
-import buque1Img from '/assets/flores/buque1.png'; // ou import buque1Img from '../assets/flores/buque1.png';
-import buque2Img from '/assets/flores/buque2.png'; // ou import buque2Img from '../assets/flores/buque2.png';
+import buque1Img from '/assets/flores/buque1.png';
+import buque2Img from '/assets/flores/buque2.png';
 
 function Compartilhar() {
   const { codigo } = useParams();
@@ -80,19 +79,30 @@ function Compartilhar() {
     try {
       const elemento = buqueContainerRef.current;
 
-      const dataUrl = await toPng(elemento, {
-        cacheBust: true,
-        pixelRatio: 2,
-        backgroundColor: '#818C61',
+      // Execução dupla via toBlob para resolver falhas de renderização no iOS Safari
+      const blob = await Promise.all([
+        toBlob(elemento, {
+          cacheBust: true,
+          pixelRatio: 2,
+          backgroundColor: '#818C61',
+        }),
+        toBlob(elemento, {
+          cacheBust: true,
+          pixelRatio: 2,
+          backgroundColor: '#818C61',
+        })
+      ]).then((res) => res[1]);
 
-      });
+      if (!blob) {
+        throw new Error('Falha ao gerar a imagem.');
+      }
 
-      const response = await fetch(dataUrl);
-      const blob = await response.blob();
-      const arquivo = new File([blob], 'meu-buque.png', { type: 'image/png' });
+      const nomeArquivo = `meu-buque-${Math.floor(Math.random() * 1000)}.png`;
+      const arquivo = new File([blob], nomeArquivo, { type: 'image/png' });
 
       let compartilhouNativo = false;
 
+      // Tenta o compartilhamento nativo primeiro (iOS/Android)
       if (
         navigator.share &&
         navigator.canShare &&
@@ -107,18 +117,26 @@ function Compartilhar() {
           compartilhouNativo = true;
         } catch (shareErr) {
           if (shareErr.name !== 'AbortError') {
-            console.warn('Falha ao compartilhar:', shareErr);
+            console.warn('Falha no compartilhamento nativo:', shareErr);
+          } else {
+            return; // Se o usuário cancelou o menu do iOS, encerra sem disparar download
           }
         }
       }
 
+      // Fallback para download via ObjectURL caso o compartilhamento nativo não seja suportado
       if (!compartilhouNativo) {
+        const blobUrl = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.download = 'meu-buque.png';
-        link.href = dataUrl;
+        link.download = nomeArquivo;
+        link.href = blobUrl;
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
+
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(blobUrl);
+        }, 100);
       }
     } catch (erro) {
       console.error('Erro ao capturar imagem:', erro);
@@ -157,15 +175,15 @@ function Compartilhar() {
 
   return (
     <main className="pagina-buque pagina-compartilhar">
-      
       <section className="area-buque">
         
+        {/* Container que vira a foto do buquê */}
         <div className="buque-container" ref={buqueContainerRef}>
           <header className="topo-logo">
             <img src="./assets/logo.png" alt="Logo" className="logo-pagina" />
-            </header>
+          </header>
+
           <div className="buque">
-            {/* Usando as variáveis de imagem importadas */}
             <img
               src={buque1Img}
               className="buque-fundo"
@@ -221,6 +239,7 @@ function Compartilhar() {
           </div>
         </div>
 
+        {/* Área de Botões e Ações (Fora do print) */}
         <div className="compartilhar-area">
           <h1>Compartilhe seu buquê!</h1>
           <div className="botoes-compartilhar">

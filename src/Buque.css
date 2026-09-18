@@ -250,7 +250,7 @@ body {
 
 /* Imagem da logo */
 .logo-pagina {
-  max-width: 140px; /* Ajuste o tamanho da logo como preferir */
+  max-width: 100px; /* Ajuste o tamanho da logo como preferir */
   height: auto;
   object-fit: contain;
   pointer-events: auto; /* Mantém a logo clicável caso queira transformar em link */
