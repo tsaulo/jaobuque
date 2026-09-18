@@ -1,7 +1,6 @@
 import './Compartilhar.css';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { domToPng } from 'modern-screenshot';
 import { musicas } from './Musicas';
 
 import buque1Img from '/assets/flores/buque1.png';
@@ -9,8 +8,6 @@ import buque2Img from '/assets/flores/buque2.png';
 
 function Compartilhar() {
   const { codigo } = useParams();
-  const buqueContainerRef = useRef(null);
-  const [carregandoImagem, setCarregandoImagem] = useState(false);
 
   const ids = codigo ? codigo.split('-') : [];
 
@@ -72,121 +69,6 @@ function Compartilhar() {
 
   const url = window.location.href;
 
-  const baixarImagemOuCompartilhar = async () => {
-    setCarregandoImagem(true);
-
-    try {
-      await new Promise((r) => setTimeout(r, 500));
-
-      const elemento = buqueContainerRef.current || document.querySelector('.buque-container');
-      if (!elemento) {
-        throw new Error('Elemento .buque-container não foi encontrado no DOM.');
-      }
-
-      const isMobile = window.innerWidth <= 700;
-      const CAPTURE_SCALE = Math.max(window.devicePixelRatio || 1, 2) * 1.2;
-
-      const pngDataUrl = await domToPng(elemento, {
-        scale: CAPTURE_SCALE,
-        fetchExternalStyles: true,
-        features: {
-          font: true,
-        },
-      });
-
-      const img = new Image();
-      img.src = pngDataUrl;
-      await new Promise((resolve) => {
-        img.onload = resolve;
-      });
-
-      const larguraDesejadaStory = 1080;
-      const alturaDesejadaStory = 1920;
-
-      const canvasFinalStory = document.createElement('canvas');
-      canvasFinalStory.width = larguraDesejadaStory;
-      canvasFinalStory.height = alturaDesejadaStory;
-      const ctxFinal = canvasFinalStory.getContext('2d');
-
-      const fundoPath = isMobile
-        ? '/assets/fundofloresmobile2.png'
-        : '/assets/fundoflores5.png';
-
-      const backgroundImage = new Image();
-      backgroundImage.src = fundoPath;
-
-      await new Promise((resolve) => {
-        backgroundImage.onload = resolve;
-        backgroundImage.onerror = () => {
-          backgroundImage.src = '/assets/fundoflores5.png';
-          backgroundImage.onload = resolve;
-        };
-      });
-
-      ctxFinal.drawImage(
-        backgroundImage,
-        0,
-        0,
-        larguraDesejadaStory,
-        alturaDesejadaStory
-      );
-
-      const larguraOrigem = img.naturalWidth;
-      const alturaOrigem = img.naturalHeight;
-
-      const scaleRatio = Math.min(
-        (larguraDesejadaStory * 0.9) / larguraOrigem,
-        (alturaDesejadaStory * 0.85) / alturaOrigem
-      );
-
-      const imgWidthScaled = larguraOrigem * scaleRatio;
-      const imgHeightScaled = alturaOrigem * scaleRatio;
-
-      const xPos = Math.round((larguraDesejadaStory - imgWidthScaled) / 2);
-      const yPos = Math.round((alturaDesejadaStory - imgHeightScaled) / 2);
-
-      ctxFinal.drawImage(
-        img,
-        xPos,
-        yPos,
-        imgWidthScaled,
-        imgHeightScaled
-      );
-
-      canvasFinalStory.toBlob(async (blob) => {
-        if (!blob) return;
-
-        const nomeArquivo = 'meu-buque.png';
-        const file = new File([blob], nomeArquivo, { type: 'image/png' });
-
-        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              title: 'Meu Buquê',
-              text: 'Olha só o buquê que eu criei!',
-              files: [file],
-            });
-            return;
-          } catch (err) {
-            if (err.name === 'AbortError') return;
-          }
-        }
-
-        const linkUrl = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.download = nomeArquivo;
-        link.href = linkUrl;
-        link.click();
-
-        setTimeout(() => URL.revokeObjectURL(linkUrl), 1000);
-      }, 'image/png');
-    } catch (error) {
-      console.error('Erro ao gerar a imagem:', error);
-    } finally {
-      setCarregandoImagem(false);
-    }
-  };
-
   function copiarLink() {
     navigator.clipboard.writeText(url);
     alert('Link copiado!');
@@ -210,18 +92,15 @@ function Compartilhar() {
     );
   }
 
-  function compartilharInstagram() {
-    baixarImagemOuCompartilhar();
-  }
-
   return (
     <main className="pagina-buque pagina-compartilhar">
-      <section className="area-buque">
-        
-        <div className="buque-container" ref={buqueContainerRef}>
-          <header className="topo-logo">
+      <header className="topo-logo">
             <img src="./assets/logo.png" alt="Logo" className="logo-pagina" />
           </header>
+      <section className="area-buque">
+        
+        <div className="buque-container">
+          
 
           <div className="buque">
             <img
@@ -281,28 +160,12 @@ function Compartilhar() {
 
         <div className="compartilhar-area">
           <h1>Compartilhe seu buquê!</h1>
+          <p>...ou capture a tela!</p>
           <div className="botoes-compartilhar">
-            <button
-              className="botao-compartilhar"
-              onClick={baixarImagemOuCompartilhar}
-              aria-label="Baixar Imagem"
-              disabled={carregandoImagem}
-            >
-              {carregandoImagem ? '⌛' : '📸'}
-            </button>
-
             <button className="botao-compartilhar" onClick={copiarLink} aria-label="Copiar link">
               <svg viewBox="0 0 24 24">
                 <path d="M10 13a5 5 0 0 0 7.07.07l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15" />
                 <path d="M14 11a5 5 0 0 0-7.07-.07l-2 2A5 5 0 0 0 7 20l1.15-1.15" />
-              </svg>
-            </button>
-
-            <button className="botao-compartilhar" onClick={compartilharInstagram} aria-label="Instagram">
-              <svg viewBox="0 0 24 24">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
               </svg>
             </button>
 

@@ -363,75 +363,82 @@
     background-image: url('/assets/fundofloresmobile2.png');
   }
 
-  .pagina-compartilhar .buque-container {
-    width: 100%;
-    height: 100%;
-  }
+  /* EMPURRA A LOGO MAIS PARA CIMA */
+  
 
+ 
+
+  /* BUQUÊ MANTIDO EXATAMENTE COMO NO SEU CÓDIGO ORIGINAL */
   .pagina-compartilhar .buque {
     width: 680px;
     height: 680px;
-    top: 45%;
+    top: 38%;
   }
 
   .pagina-compartilhar .posicoes {
-    left: 20px;
-    bottom: 355px;
-    width: 230px;
+    left: 15px;
+    bottom: 270px;
+    width: 200px;
   }
 
   .pagina-compartilhar .posicao {
     height: 19px;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .pagina-compartilhar .numero-posicao {
-    width: 30px;
+    width: 25px;
   }
 
   .pagina-compartilhar .flores-posicoes {
-    right: 20px;
-    bottom: 355px;
-    width: 230px;
+    right: 15px;
+    bottom: 270px;
+    width: 200px;
   }
 
   .pagina-compartilhar .flor-posicao {
     height: 19px;
-    font-size: 15px;
+    font-size: 14px;
   }
 
+  /* EMPURRA A ÁREA DE COMPARTILHAR MAIS PARA BAIXO */
   .compartilhar-area {
-    bottom: 150px;
+    bottom: 100px; /* Alterado de 150px para 30px para ficar bem mais abaixo */
+  }
+
+  p{
+    color: #FAFAFA;
+    padding-bottom: 10%;
   }
 
   .compartilhar-area h1 {
-    font-size: 22px;
-    margin-bottom: 12px;
+    font-size: 20px;
+    margin-bottom: 10px;
   }
 
   .botoes-compartilhar {
-    gap: 12px;
+    gap: 10px;
   }
 
   .botao-compartilhar,
   .btn {
-    padding: 10px 20px;
-    font-size: 15px;
+    padding: 10px 18px;
+    font-size: 14px;
   }
 
   .botao-compartilhar svg {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
   }
 
   .icone-x {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .botao-recomecar {
     left: 15px;
     bottom: 12px;
-    padding: 10px 22px;
-    font-size: 15px;
+    padding: 8px 18px;
+    font-size: 14px;
   }
 }
